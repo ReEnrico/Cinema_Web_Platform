@@ -1,0 +1,65 @@
+services:
+
+  postgres:
+    image: postgres:17-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: postgres_cinema_db
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: Hjv3!g5e8S2t2
+      POSTGRES_USER: admin
+      POSTGRES_DB: CinemaDB
+    ports:
+      - 5433:5432
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.1
+    container_name: keycloak_idp
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloakdb:5432/keycloakDb
+      KC_DB_USERNAME: keycloakAdmin
+      KC_DB_PASSWORD: Hjv3!g5e8S2t2
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminPassword
+    command: start-dev
+    depends_on:
+       - keycloakdb
+    ports:
+       - 8090:8080
+       - 9000:9000
+    networks:
+      - keycloak-net
+
+  keycloakdb:
+    image: postgres:17-alpine
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloakDb
+      POSTGRES_USER: keycloakAdmin
+      POSTGRES_PASSWORD: Hjv3!g5e8S2t2
+    ports:
+      - 5435:5432
+    networks:
+      - keycloak-net
+
+volumes:
+  postgres_data:
+  keycloak_db_data:
+
+networks:
+  keycloak-net:
+    name: keycloak-net
