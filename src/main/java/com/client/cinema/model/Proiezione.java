@@ -3,6 +3,7 @@ package com.client.cinema.model;
 import com.client.cinema.model.base.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -30,9 +31,11 @@ public class Proiezione extends BaseEntity {
     private Long prezzoBiglietto;
 
     @ManyToMany(mappedBy = "proiezioneList")
+    @Size(message = "Controllo lista non vuota", min = 1)
     private Set<Sala> salaList = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "film_id")
+    @NotNull
     private Film film;
 }
