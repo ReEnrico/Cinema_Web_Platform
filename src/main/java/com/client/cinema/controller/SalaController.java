@@ -74,11 +74,35 @@ public class SalaController {
                     description = "Risorsa non trovata"
             )
     })
-    @PutMapping(value = "/update/{sala_id}")
-    public ResponseEntity<DettaglioSala> updateExistingSala(@PathVariable Long sala_id,
+    @PutMapping(value = "/update/{salaId}")
+    public ResponseEntity<DettaglioSala> updateExistingSala(@PathVariable Long salaId,
                                                             @RequestBody(description = "Dettagli della Sala da modificare", required = true)
                                                             @Valid
                                                             @org.springframework.web.bind.annotation.RequestBody ModificaSala modificaSala) {
-        return ResponseEntity.status(HttpStatus.OK).body(salaService.modificaSalaEsistente(sala_id, modificaSala));
+        return ResponseEntity.status(HttpStatus.OK).body(salaService.modificaSalaEsistente(salaId, modificaSala));
+    }
+
+    @Operation(
+            summary = "Visualizzazione Sala",
+            description = "Visualizza la configurazione completa di una Sala"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Oggetto visualizzato con successo",
+                    content = @Content(schema = @Schema(implementation = DettaglioSala.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Parametro sbagliato"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Risorsa non trovata"
+            )
+    })
+    @GetMapping("/single-record/{salaId}")
+    public ResponseEntity<DettaglioSala> getSingleSalaDetail(@PathVariable Long salaId) {
+        return ResponseEntity.status(HttpStatus.OK).body(salaService.visualizzaSingolaSala(salaId));
     }
 }

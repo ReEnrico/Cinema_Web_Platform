@@ -56,4 +56,14 @@ public class SalaServiceImpl extends BaseServiceImpl<Sala, Long, SalaRepository>
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public DettaglioSala visualizzaSingolaSala(Long salaId) {
+        Optional<Sala> existingSala = super.findOne(salaId);
+        if (existingSala.isPresent()) {
+            return SalaConverter.entityToDettaglioSala(existingSala.get());
+        } else {
+            throw new RuntimeException();
+        }
+    }
 }
