@@ -5,11 +5,15 @@ import com.client.cinema.repository.SalaRepository;
 import com.client.cinema.service.SalaService;
 import com.client.cinema.utils.SalaConverter;
 import com.client.cinema.view.sala.DettaglioSala;
+import com.client.cinema.view.sala.ModificaSala;
 import com.client.cinema.view.sala.NuovaSala;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -33,5 +37,23 @@ public class SalaServiceImpl extends BaseServiceImpl<Sala, Long, SalaRepository>
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public DettaglioSala modificaSalaEsistente(Long sala_id, ModificaSala modificaSala) {
+        Optional<Sala> existingSala = super.findOne(sala_id);
+        if (existingSala.isPresent()) {
+            Sala salaToUpdate = existingSala.get();
+            salaToUpdate.setNomeSala(modificaSala.getNomeSala());
+            salaToUpdate.setNumeroMassimoPosti(modificaSala.getNumeroMassimoPosti());
+            salaToUpdate.setPostiPerFila(modificaSala.getPostiPerFila());
+            salaToUpdate.setNumeroFile(modificaSala.getNumeroFile());
+           return  SalaConverter.entityToDettaglioSala(
+                   super.createOrUpdate(salaToUpdate)
+           );
+        } else {
+            //TODO: customizzare l'eccezione
+            throw new RuntimeException();
+        }
     }
 }

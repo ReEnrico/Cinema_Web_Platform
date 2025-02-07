@@ -2,6 +2,7 @@ package com.client.cinema.utils;
 
 import com.client.cinema.model.Sala;
 import com.client.cinema.view.sala.DettaglioSala;
+import com.client.cinema.view.sala.ModificaSala;
 import com.client.cinema.view.sala.NuovaSala;
 
 public class SalaConverter {

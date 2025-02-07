@@ -2,6 +2,7 @@ package com.client.cinema.controller;
 
 import com.client.cinema.service.SalaService;
 import com.client.cinema.view.sala.DettaglioSala;
+import com.client.cinema.view.sala.ModificaSala;
 import com.client.cinema.view.sala.NuovaSala;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,9 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("config/sala")
@@ -54,5 +53,32 @@ public class SalaController {
                                                                         @Valid
                                                                         @org.springframework.web.bind.annotation.RequestBody NuovaSala nuovaSala) {
         return ResponseEntity.status(HttpStatus.CREATED).body(salaService.registraNuovaSala(nuovaSala));
+    }
+
+    @Operation(
+            summary = "Modifica la configurazione di una Sala",
+            description = "Cambia la configurazione strutturale di una Sala, per esempio diminuire il numero di posti massimi disponibili, o cambiarle il nome"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Modifica effettuata con successo",
+                    content = @Content(schema = @Schema(implementation = DettaglioSala.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Dati in formato non valido"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Risorsa non trovata"
+            )
+    })
+    @PutMapping(value = "/update/{sala_id}")
+    public ResponseEntity<DettaglioSala> updateExistingSala(@PathVariable Long sala_id,
+                                                            @RequestBody(description = "Dettagli della Sala da modificare", required = true)
+                                                            @Valid
+                                                            @org.springframework.web.bind.annotation.RequestBody ModificaSala modificaSala) {
+        return ResponseEntity.status(HttpStatus.OK).body(salaService.modificaSalaEsistente(sala_id, modificaSala));
     }
 }
