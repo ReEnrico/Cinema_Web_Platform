@@ -24,18 +24,18 @@ public class Sala extends BaseEntity {
     //TODO: trovare un modo per rendere questo campo modificabile solo con ruolo specifico
     @Column
     @NotNull
-    private int numeroMassimoPosti;
+    private Integer numeroMassimoPosti;
 
     @Column
     @NotNull
-    private int postiPerFila;
+    private Integer postiPerFila;
 
     @Column
     @NotNull
-    private int numeroFile;
+    private Integer numeroFile;
 
     @Column
-    private int postiPrenotati;
+    private Integer postiPrenotati;
 
 
   @ManyToMany

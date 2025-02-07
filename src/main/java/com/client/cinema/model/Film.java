@@ -2,6 +2,7 @@ package com.client.cinema.model;
 
 import com.client.cinema.model.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -17,10 +18,16 @@ import java.util.Set;
 @Setter
 public class Film extends BaseEntity {
 
+    @Column
+    @NotNull
     private String nomeFilm;
 
+    @Column
+    @NotNull
     private Integer durataFilm;
 
+    @Column
+    @NotNull
     private List<String> castCompleto;
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

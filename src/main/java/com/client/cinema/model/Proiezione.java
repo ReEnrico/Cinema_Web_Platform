@@ -20,7 +20,7 @@ public class Proiezione extends BaseEntity {
 
     @Column
     @NotNull
-    private LocalDateTime oraInizio;
+    private LocalDateTime dataOraInizio;
 
     @Column
     @NotNull
