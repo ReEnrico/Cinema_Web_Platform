@@ -31,7 +31,6 @@ public class Prenotazione extends BaseEntity {
     @NotNull
     private Boolean bigliettoDigitale;
 
-    //non sono ammessi
     @Column
     @NotNull
     private Set<String> postiPrenotati;

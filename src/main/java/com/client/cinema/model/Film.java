@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "film")
+@Table(
+        name = "film",
+        indexes = @Index(name = "idx_nomeFilm", columnList = "nomeFilm")
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

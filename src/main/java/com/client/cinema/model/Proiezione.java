@@ -10,7 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "proiezione")
+@Table(
+        name = "proiezione",
+        indexes = @Index(name = "idx_orario", columnList = "dataOraInizio")
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
